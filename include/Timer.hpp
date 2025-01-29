@@ -5,6 +5,7 @@
  * 
  * @date 23/10/2024 (basic time management: start, stop, elapse)
  * @date 08/01/2025 (basic statistic: mean and standard deviation)
+ * @date 29/01/2025 (refactoring comments)
  * @copyright Developed by David Blickenstorfer
  */
 
@@ -19,20 +20,20 @@ typedef std::chrono::duration<double> duration_t;
 
 /**
  * @name: Timer
- * @brief: class for managing time intervals in nanoseconds
+ * @brief: class for measuring time in ns precision
  */
 class Timer
 {
 private:
-    //< divide measured time in nanoseconds with this constant 
-    //< to get measured time in seconds
+    // divide measured time in nanoseconds with this constant 
+    // to get measured time in seconds
     static const unsigned int ns_to_sec_divisor_ = 1e9;
 
-    //< store the time of the start and end of the measurement
+    // store the time of the start and end of the measurement
     high_res_clock::time_point start_;   //< store the starting time
     high_res_clock::time_point end_;     //< store the ending time
 
-    //< store the measurements as vectors of duration type
+    // store the measurements as vectors of duration type
     std::vector<double> elapsed_in_sec_;    //< store measurements in seconds
     std::vector<double> elapsed_in_ns_;     //< store measurements in nanoseconds
 

@@ -3,7 +3,8 @@
  * @brief   : Header file for Timer struct in C
  * @author  : David Blickenstorfer
  * 
- * @date 22/10/2024 (basic time management: start, stop, elapse)
+ * @date: 22/10/2024 (basic time management: start, stop, elapse)
+ * @date: 29/01/2025 (refactoring and commentation)
  * @copyright Developed by David Blickenstorfer
  */
 
@@ -14,7 +15,7 @@
 
 /**
  * @name: Timer
- * @brief: struct for managing time intervals
+ * @brief: struct for measuring time in ns precision
  */
 typedef struct Timer
 {
@@ -54,14 +55,14 @@ void Timer_Stop(Timer* timer);
 
 /**
  * @name: Timer_Get_Elapsed_in_ns()
- * @brief: return the time interval between start and stop
+ * @brief: return the time interval between start and stop in ns
  * @param Timer: pointer of timer to get the elapsed time [ns]
  */
 double Timer_Get_Elapsed_in_ns(Timer* timer);
 
 /**
  * @name: Timer_Get_Elapsed_in_sec()
- * @brief: return the time interval between start and stop
+ * @brief: return the time interval between start and stop in sec
  * @param Timer: pointer of timer to get the elapsed time [s]
  */
 double Timer_Get_Elapsed_in_sec(Timer* timer);
