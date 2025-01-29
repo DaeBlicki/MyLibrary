@@ -1,5 +1,5 @@
 /**
- * @file    : timer_example.c
+ * @file    : example_cTimer.c
  * @brief   : Documentation code for the usage of Timer
  * @author  : David Blickenstorfer
  * 

@@ -1,5 +1,5 @@
 /**
- * @file    : timer_example.cpp
+ * @file    : exampe_cppTimer.cpp
  * @brief   : Documentation code for the usage of Timer (C++)
  * @author  : David Blickenstorfer
  * 

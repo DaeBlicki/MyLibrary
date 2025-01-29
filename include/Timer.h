@@ -3,15 +3,13 @@
  * @brief   : Header file for Timer struct in C
  * @author  : David Blickenstorfer
  * 
- * @date 22/10/2024 (basic time management with start, stop, elapse)
- * @copyright Developed at ETH Zurich
+ * @date 22/10/2024 (basic time management: start, stop, elapse)
+ * @copyright Developed by David Blickenstorfer
  */
 
 #ifndef TIMER_H
 #define TIMER_H
 
-#include <stdlib.h>
-#include <stdio.h>
 #include <time.h>
 
 /**
