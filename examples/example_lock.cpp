@@ -1,3 +1,13 @@
+/**
+ * @file    : exampe_lock.cpp
+ * @brief   : Example code for the usage of locks
+ * @author  : David Blickenstorfer
+ * 
+ * @date 30/01/2025
+ * @copyright Developed by David Blickenstorfer
+ */
+
+
 #include <iostream>
 #include <stdlib.h>
 

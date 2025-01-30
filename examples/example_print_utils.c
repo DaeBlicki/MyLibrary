@@ -1,8 +1,9 @@
 /**
- * @file    : test_print_utils.cpp
- * @brief   : test code for printing utility
+ * @file    : exampe_print_utils.c
+ * @brief   : Example code for the usage of the print library
  * @author  : David Blickenstorfer
- * @date 18/11/2024
+ * 
+ * @date 30/01/2025
  * @copyright Developed by David Blickenstorfer
  */
 
