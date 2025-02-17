@@ -11,6 +11,7 @@
 #include "../include/Timer.hpp"
 #include <stdexcept>    //< for std::runtime_error
 #include <numeric>      //< for std::accumulate
+#include <math.h>       //< for std::sqrt
 
  /**
  * @name: Timer()
@@ -165,16 +166,16 @@ double Timer::get_mean_in_sec() const
 }
 
 /**
- * @name: get_variance_in_sec()
+ * @name: get_sd_in_sec
  * @author: GTP-4, code revision by David Blickenstorfer
- * @brief: return the variance of the measured time in seconds
- * @return double, variance of the measured time in seconds
+ * @brief: return the standard deviation of the measured time in sec
+ * @return double, standard deviation of the measured time in sec
  */
-double Timer::get_variance_in_sec() const
+double Timer::get_sd_in_sec() const
 {
     // check if there are measurements
     if(elapsed_in_sec_.empty()){
-        throw std::runtime_error("timer::get_variance_in_sec failed : no measurements! \n");
+        throw std::runtime_error("timer::get_sd_in_sec failed : no measurements! \n");
     }
     const unsigned int number_of_measurements = elapsed_in_sec_.size();
     // trivial variance if there is only one measurement
@@ -192,20 +193,20 @@ double Timer::get_variance_in_sec() const
     const double variance = std::accumulate(elapsed_in_sec_.begin(), elapsed_in_sec_.end(), 0.0, helper) 
                           / (number_of_measurements - 1);   //< variance for sampling = n - 1
     
-    return variance;
+    return std::sqrt(variance);
 }
 
 /**
- * @name: get_variance_in_ns()
+ * @name: get_sd_in_ns
  * @author: GTP-4, code revision by David Blickenstorfer
- * @brief: return the variance of the measured time in ns
- * @return double, variance of the measured time in ns
+ * @brief: return the standard deviation of the measured time in ns
+ * @return double, standard deviation of the measured time in ns
  */
-double Timer::get_variance_in_ns() const
+double Timer::get_sd_in_ns() const
 {
     //< check if there are measurements
     if(elapsed_in_ns_.empty()){
-        throw std::runtime_error("timer::get_variance_in_ns failed : no measurements! \n");
+        throw std::runtime_error("timer::get_sd_in_ns failed : no measurements! \n");
     }
     const unsigned int number_of_measurements = elapsed_in_sec_.size();
     // trivial variance if there is only one measurement
@@ -223,5 +224,149 @@ double Timer::get_variance_in_ns() const
     const double variance = std::accumulate(elapsed_in_sec_.begin(), elapsed_in_sec_.end(), 0.0, helper) 
                           / (number_of_measurements - 1);   //< variance for sampling = n - 1
     
-    return variance;
+    return std::sqrt(variance);
+}
+
+/**
+ * @name: get_Flop_per_sec
+ * @brief: return the performance in Flops/sec for the last measurement
+ * @param num_operations: size_t, number of arithmetic operations of the last measurment
+ * @return double, performance of last measurement in flops per sec
+ */
+double Timer::get_Flop_per_sec(const size_t num_operations) const
+{
+    try{
+        const double elapsed_in_sec = get_elapsed_in_sec();
+        return num_operations / elapsed_in_sec;
+    }catch(const std::runtime_error& e){
+        throw std::runtime_error("timer::get_Flop_per_sec failed! : no measurements! \n");
+    }
+}
+
+/**
+ * @name: get_MFlop_per_sec
+ * @brief: return the performance in Flops/s for the last measurement
+ * @param num_operations: size_t, number of arithmetic operations of the last measurment
+ * @return double, performance of last measurement in MFlops/s
+ */
+double Timer::get_MFlop_per_sec(const size_t num_operations) const
+{
+    try{
+        const double elapsed_in_sec = get_elapsed_in_sec();
+        return num_operations / (elapsed_in_sec * Flops_to_MFlops_divisor);
+    }catch(const std::runtime_error& e){
+        throw std::runtime_error("timer::get_MFlop_per_sec failed! : no measurements! \n");
+    }
+}
+
+/**
+ * @name: get_GFlop_per_sec
+ * @brief: return the performance in MFlops/s for the last measurement
+ * @param num_operations: size_t, number of arithmetic operations of the last measurment
+ * @return double, performance of last measurement in MFlops/s
+ */
+double Timer::get_GFlop_per_sec(const size_t num_operations) const
+{
+    try{
+        const double elapsed_in_sec = get_elapsed_in_sec();
+        return num_operations / (elapsed_in_sec * Flops_to_GFlops_divisor);
+    }catch(const std::runtime_error& e){
+        throw std::runtime_error("timer::get_GFlop_per_sec failed! : no measurements! \n");
+    }
+}
+
+/**
+ * @name: get_mean_in_Flop_per_sec
+ * @brief: calculate the average of the measured performance in Flop/sec
+ * @param num_operations: size_t, number of arithmetic operations of the measurements
+ * @return double, average of the measured performance in Flop/sec
+ */
+double Timer::get_mean_in_Flop_per_sec(const size_t num_operations) const
+{
+    try{
+        const double mean_in_sec = get_mean_in_sec();
+        return num_operations / (mean_in_sec);
+    }catch(const std::runtime_error& e){
+        throw std::runtime_error("timer::get_mean_in_Flop_per_sec failed! \n");
+    }
+}
+
+/**
+ * @name: get_mean_in_MFlop_per_sec
+ * @brief: calculate the average of the measured performance in MFlop/sec
+ * @param num_operations: size_t, number of arithmetic operations of the measurements
+ * @return double, average of the measured performance in MFlop/sec
+ */
+double Timer::get_mean_in_MFlop_per_sec(const size_t num_operations) const
+{
+    try{
+        const double mean_in_sec = get_mean_in_sec();
+        return num_operations / (mean_in_sec * Flops_to_MFlops_divisor);
+    }catch(const std::runtime_error& e){
+        throw std::runtime_error("timer::get_mean_in_MFlop_per_sec failed! \n");
+    }
+}
+
+/**
+ * @name: get_mean_in_GFlop_per_sec
+ * @brief: calculate the average of the measured performance in GFlop/sec
+ * @param num_operations: size_t, number of arithmetic operations of the measurements
+ * @return double, average of the measured performance in GFlop/sec
+ */
+double Timer::get_mean_in_GFlop_per_sec(const size_t num_operations) const
+{
+    try{
+        const double mean_in_sec = get_mean_in_sec();
+        return num_operations / (mean_in_sec * Flops_to_GFlops_divisor);
+    }catch(const std::runtime_error& e){
+        throw std::runtime_error("timer::get_mean_in_GFlop_per_sec failed! \n");
+    }
+}
+
+/**
+ * @name: get_sd_in_Flop_per_sec
+ * @brief: return the variance of the measured performance in Flops/s
+ * @param num_operations: size_t, number of arithmetic operations of the measurements
+ * @return double, standard deviation of the measured performance in Flops/s
+ */
+double Timer::get_sd_in_Flop_per_sec(const size_t num_operations) const
+{
+    try{
+        const double sd_in_sec = get_sd_in_sec();
+        return num_operations / sd_in_sec;
+    }catch(const std::runtime_error& e){
+        throw std::runtime_error("timer::get_sd_in_Flop_per_sec failed! \n");
+    }
+}
+
+/**
+ * @name: get_sd_in_MFlop_per_sec
+ * @brief: return the variance of the measured performance in MFlops/s
+ * @param num_operations: size_t, number of arithmetic operations of the measurements
+ * @return double, standard deviation of the measured performance in MFlops/s
+ */
+double Timer::get_sd_in_MFlop_per_sec(const size_t num_operations) const
+{
+    try{
+        const double sd_in_sec = get_sd_in_sec();
+        return num_operations / (sd_in_sec * Flops_to_MFlops_divisor);
+    }catch(const std::runtime_error& e){
+        throw std::runtime_error("timer::get_sd_in_MFlop_per_sec failed! \n");
+    }
+}
+
+/**
+ * @name: get_sd_in_GFlop_per_sec
+ * @brief: return the variance of the measured performance in GFlops/s
+ * @param num_operations: size_t, number of arithmetic operations of the measurements
+ * @return double, standard deviation of the measured performance in GFlops/s
+ */
+double Timer::get_sd_in_GFlop_per_sec(const size_t num_operations) const
+{
+    try{
+        const double sd_in_sec = get_sd_in_sec();
+        return num_operations / (sd_in_sec * Flops_to_GFlops_divisor);
+    }catch(const std::runtime_error& e){
+        throw std::runtime_error("timer::get_sd_in_GFlop_per_sec failed! \n");
+    }
 }

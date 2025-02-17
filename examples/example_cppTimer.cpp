@@ -31,6 +31,10 @@ int main(int argc, char* argv[])
     std::cout << "The sum of 0 up to 10000 is " << sum << "\n";
     std::cout << "Elapsed time in ns : " << myTimer.get_elapsed_in_ns() << "\n";
     std::cout << "Elapsed time in sec : " << myTimer.get_elapsed_in_sec() << "\n";
+    std::cout << "Performance in Flop/s : " << myTimer.get_Flop_per_sec(10000) << "\n";
+    std::cout << "Performance in MFlop/s : " << myTimer.get_MFlop_per_sec(10000) << "\n";
+    std::cout << "Performance in GFlop/s : " << myTimer.get_GFlop_per_sec(10000) << "\n";
+
 
     // reset the timer
     myTimer.reset();
@@ -51,6 +55,13 @@ int main(int argc, char* argv[])
 
     std::cout << "Elapsed mean in ns : " << myTimer.get_mean_in_ns() << "\n";
     std::cout << "Elapsed mean in sec : " << myTimer.get_elapsed_in_sec() << "\n";
+
+    std::cout << "average Performance in Flop/s : " << myTimer.get_mean_in_Flop_per_sec(10000) << "\n";
+    std::cout << "standard deviation in Flop/s : " << myTimer.get_sd_in_Flop_per_sec(10000) << "\n";
+    std::cout << "average Performance in MFlop/s : " << myTimer.get_mean_in_MFlop_per_sec(10000) << "\n";
+    std::cout << "standard deviation in MFlop/s : " << myTimer.get_sd_in_MFlop_per_sec(10000) << "\n";
+    std::cout << "average Performance in GFlop/s : " << myTimer.get_mean_in_GFlop_per_sec(10000) << "\n";
+    std::cout << "standard deviation in GFlop/s : " << myTimer.get_sd_in_GFlop_per_sec(10000) << "\n";
 
     return 0;
 }
