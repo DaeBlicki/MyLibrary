@@ -15,4 +15,7 @@ All code can be used for any applications.
  - Timer.h : timer struct written in \<C\> based on ```time_spec``` from <time.h>
  - Timer.hpp : timer class written in <C++> based on ```high_resolution_clock``` from <chrono.h>
 3) PrintUtility : Printing framework for <C/C++> to print colors in terminal based on <stdio.h>
-
+4) High-Performance Computing: Example codes for parallel programming in \<C\> 
+- CUDA : Application programming interface for parallel computing on GPU
+- OpenMP : Application programming interface for multiprocessing on shared memory
+- MPI : Message Passing Interface, Library for two-sided communication on distributed memory
