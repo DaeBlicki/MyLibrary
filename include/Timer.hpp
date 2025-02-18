@@ -22,7 +22,7 @@ typedef std::chrono::duration<double> duration_t;
 
 /**
  * @name: Timer
- * @brief: class for measuring time in ns precision
+ * @brief: class for measuring time in ns precision and performance in Flops/s
  */
 class Timer
 {
