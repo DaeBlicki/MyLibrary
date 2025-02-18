@@ -30,8 +30,8 @@ private:
     // divide measured time in nanoseconds with this constant 
     // to get measured time in seconds
     static const unsigned int ns_to_sec_divisor_ = 1e9;
-    static const unsigned int Flops_to_MFlops_divisor = 1e6;
-    static const unsigned int Flops_to_GFlops_divisor = 1e9;
+    static const unsigned int Flops_to_MFlops_divisor_ = 1e6;
+    static const unsigned int Flops_to_GFlops_divisor_ = 1e9;
 
     // store the time of the start and end of the measurement
     high_res_clock::time_point start_;   //< store the starting time
