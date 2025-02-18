@@ -349,28 +349,28 @@ double Timer::get_sd_in_Flop_per_sec(const size_t num_operations) const
     if(elapsed_in_ns_.empty()){
         throw std::runtime_error("timer::get_sd_in_Flop_per_sec failed : no measurements! \n");
     }
-    const unsigned int number_of_measurements = elapsed_in_sec_.size();
+    const unsigned int num_measurements = elapsed_in_sec_.size();
     // trivial variance if there is only one measurement
-    if(number_of_measurements < 2){
+    if(num_measurements < 2){
         return 0.;
     }
 
     // create new vectors with performance
-    std::vector<double> performance_in_Flop_per_sec(number_of_measurements);
-    for(unsigned int i = 0; i < number_of_measurements; i++){
+    std::vector<double> performance_in_Flop_per_sec(num_measurements);
+    for(unsigned int i = 0; i < num_measurements; i++){
         performance_in_Flop_per_sec.at(i) = num_operations / elapsed_in_sec_.at(i); 
     }
 
-    // calculate tool variables and helper function for variance
-    const double total_measured_performance = std::accumulate(performance_in_Flop_per_sec.begin(), performance_in_Flop_per_sec.end(), 0.0);
-    const double mean = total_measured_performance / number_of_measurements;    
-    auto helper = [mean](double acc, double x)->double{
-        return acc + (x - mean)*(x - mean);
-    };
+    // calculate mean and variance for sampling
+    const double mean = get_mean_in_Flop_per_sec(num_operations);
+    double variance = 0.;
+    for(unsigned int i = 0; i < num_measurements; i++){
+        const double tmp = performance_in_Flop_per_sec.at(i) - mean;
+        variance += tmp * tmp;
+    }
 
-    // variance calculation for samplings
-    const double variance = std::accumulate(performance_in_Flop_per_sec.begin(), performance_in_Flop_per_sec.end(), 0.0, helper) 
-                          / (number_of_measurements - 1);   //< variance for sampling = n - 1
+    // variance for sampling
+    variance /= num_measurements - 1.;
     
     return std::sqrt(variance);
 }
